@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { login } from '../lib/bsky'
 
-export default function Login({ onSuccess }: { onSuccess: () => void }) {
+export default function Login({ onSuccess, onBack }: { onSuccess: () => void; onBack?: () => void }) {
   const [handle, setHandle] = useState('')
   const [password, setPassword] = useState('')
   const [pds, setPds] = useState('')
@@ -30,6 +30,13 @@ export default function Login({ onSuccess }: { onSuccess: () => void }) {
 
   return (
     <div className="login95">
+      {onBack && (
+        <div style={{ marginBottom: 12 }}>
+          <button className="btn95" type="button" onClick={onBack}>
+            ◀ Back to Desktop
+          </button>
+        </div>
+      )}
       <h1>
         <span style={{ fontStyle: 'normal' }}>•</span> Sign in to Bluesky
       </h1>

@@ -41,6 +41,7 @@ export default function App() {
   const [replyTo, setReplyTo] = useState<ReplyRef | null>(null)
   const [status, setStatus] = useState('')
   const [refreshNonce, setRefreshNonce] = useState(0)
+  const [pendingView, setPendingView] = useState<ViewId | null>(null)
   const [minimized, setMinimized] = useState(false)
   const [maximized, setMaximized] = useState(false)
 
@@ -51,6 +52,11 @@ export default function App() {
   function open(v: ViewId) {
     setReplyTo(null)
     setStatus('')
+    if (!authed) {
+      // not signed in yet: remember where they wanted to go, show login
+      setPendingView(v)
+      return
+    }
     setView(v)
   }
 
@@ -63,12 +69,15 @@ export default function App() {
     await logout()
     setAuthed(false)
     setView(null)
+    setPendingView(null)
   }
 
   const title =
     authed && view
       ? `Bluesky Social — ${view === 'feed' ? feedName : VIEW_TITLES[view]}`
-      : 'Bluesky Social'
+      : authed === false && pendingView !== null
+        ? 'Bluesky Social — Sign in'
+        : 'Bluesky Social'
 
   return (
     <div className="app95">
@@ -104,7 +113,23 @@ export default function App() {
           <div className="win95-body">
             {authed === null && <div className="msg95">⏳ Restoring session…</div>}
 
-            {authed === false && <Login onSuccess={() => setAuthed(true)} />}
+            {authed === false && pendingView === null && (
+              <>
+                <Desktop onOpen={open} />
+                <div className="msg95">👆 Click any icon to sign in and start exploring</div>
+              </>
+            )}
+
+            {authed === false && pendingView !== null && (
+              <Login
+                onBack={() => setPendingView(null)}
+                onSuccess={() => {
+                  setAuthed(true)
+                  setView(pendingView)
+                  setPendingView(null)
+                }}
+              />
+            )}
 
             {authed && view === null && <Desktop onOpen={open} />}
 

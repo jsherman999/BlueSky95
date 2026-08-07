@@ -1,5 +1,7 @@
 # 🦋 Bluesky Social 95
 
+## ▶ Live demo: [jsherman999.github.io/BlueSky95](https://jsherman999.github.io/BlueSky95/)
+
 A retro desktop-style Bluesky/atproto client that runs **entirely in the browser** — perfect as a static GitHub Pages demo.
 
 ## Privacy model (read me!)
