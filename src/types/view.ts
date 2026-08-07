@@ -1,0 +1,12 @@
+export type ViewId =
+  | 'home'
+  | 'search'
+  | 'following'
+  | 'discover'
+  | 'feeds'
+  | 'feed'
+  | 'newpost'
+  | 'trending'
+  | 'popular'
+  | 'notif-all'
+  | 'notif-mentions'
