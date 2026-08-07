@@ -32,10 +32,20 @@ npm run build   # → dist/ (plain static site)
 
 ## Deploy to GitHub Pages
 
-1. Push this repo to GitHub (`main` branch).
-2. In the repo: **Settings → Pages → Build and deployment → Source: "GitHub Actions"**.
-3. The included workflow (`.github/workflows/deploy.yml`) builds `dist/` and publishes it on every push to `main`.
-4. Your demo will be live at `https://<you>.github.io/<repo>/`.
+This repo is published from the `gh-pages` branch (static `dist/` output):
+
+1. **Settings → Pages → Source: "Deploy from a branch" → `gh-pages` / root** (already configured if you forked/cloned this as-is).
+2. To update the live site after code changes:
+
+```bash
+npm run build
+# then publish dist/ to the gh-pages branch (any method you like), e.g.:
+npx gh-pages -d dist
+```
+
+3. The site lives at `https://jsherman999.github.io/BlueSky95/`.
+
+Alternatively, `pages-workflow.yml.example` contains a GitHub Actions pipeline — move it to `.github/workflows/deploy.yml` and switch Pages source to "GitHub Actions" if you prefer CI-based deploys.
 
 The Vite `base` is set to `./`, so asset URLs are relative and work under any repo subpath automatically.
 
